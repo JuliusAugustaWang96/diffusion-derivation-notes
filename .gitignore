@@ -18,3 +18,8 @@ desktop.ini
 *.doc
 ~$*
 *.pdf
+
+# Photos of book pages are kept for personal study only and are never published
+*.jpg
+*.jpeg
+*.heic
