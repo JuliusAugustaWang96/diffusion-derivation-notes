@@ -40,23 +40,23 @@
 
 ### T3 方差与协方差
 
-**术语**：方差（variance）$`\operatorname{Var}(X)=\mathbb{E}\big[(X-\mathbb{E}X)^2\big]`$，衡量 X 偏离自己的平均值有多远；标准差是方差的平方根。协方差（covariance）$`\operatorname{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}X)(Y-\mathbb{E}Y)\big]`$，衡量两个量是否同涨同落。
+**术语**：方差（variance）$`\mathrm{Var}(X)=\mathbb{E}\big[(X-\mathbb{E}X)^2\big]`$，衡量 X 偏离自己的平均值有多远；标准差是方差的平方根。协方差（covariance）$`\mathrm{Cov}(X,Y)=\mathbb{E}\big[(X-\mathbb{E}X)(Y-\mathbb{E}Y)\big]`$，衡量两个量是否同涨同落。
 
 **规则**
 
-- $`\operatorname{Var}(aX+b)=a^2\operatorname{Var}(X)`$：加常数不改变方差，乘 a 使方差乘 $`a^2`$。
-- 一般情形：$`\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y)`$。
-- X、Y 独立时 $`\operatorname{Cov}(X,Y)=0`$，于是 $`\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)`$。
+- $`\mathrm{Var}(aX+b)=a^2\,\mathrm{Var}(X)`$：加常数不改变方差，乘 a 使方差乘 $`a^2`$。
+- 一般情形：$`\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)+2\,\mathrm{Cov}(X,Y)`$。
+- X、Y 独立时 $`\mathrm{Cov}(X,Y)=0`$，于是 $`\mathrm{Var}(X+Y)=\mathrm{Var}(X)+\mathrm{Var}(Y)`$。
 
 **为什么独立时交叉项为零**：记 $`u=X-\mathbb{E}X`$，$`v=Y-\mathbb{E}Y`$，则
 
 ```math
-\operatorname{Var}(X+Y)=\mathbb{E}\big[(u+v)^2\big]=\mathbb{E}[u^2]+2\,\mathbb{E}[uv]+\mathbb{E}[v^2].
+\mathrm{Var}(X+Y)=\mathbb{E}\big[(u+v)^2\big]=\mathbb{E}[u^2]+2\,\mathbb{E}[uv]+\mathbb{E}[v^2].
 ```
 
 独立时 $`\mathbb{E}[uv]=\mathbb{E}[u]\,\mathbb{E}[v]=0\cdot0=0`$，只剩两个方差。
 
-**例子**：X、Y 独立，方差都是 1，则 $`\operatorname{Var}(3X+4Y)=9+16=25`$，标准差是 5，不是 7。
+**例子**：X、Y 独立，方差都是 1，则 $`\mathrm{Var}(3X+4Y)=9+16=25`$，标准差是 5，不是 7。
 
 **用在**：D0(a)(c)。
 
@@ -65,7 +65,7 @@
 **规则**：对任意常数 c，
 
 ```math
-\mathbb{E}\big[(X-c)^2\big]=\operatorname{Var}(X)+(\mathbb{E}X-c)^2 .
+\mathbb{E}\big[(X-c)^2\big]=\mathrm{Var}(X)+(\mathbb{E}X-c)^2 .
 ```
 
 **推法**：记 $`\mu=\mathbb{E}X`$，把 $`X-c`$ 拆成 $`(X-\mu)+(\mu-c)`$，平方后取期望：
@@ -219,10 +219,10 @@ $`a\varepsilon_1+b\varepsilon_2`$ 是两个相互独立的高斯的线性组合�
 **第 3 步　算左边的方差**
 
 ```math
-\operatorname{Var}(a\varepsilon_1+b\varepsilon_2)=\operatorname{Var}(a\varepsilon_1)+\operatorname{Var}(b\varepsilon_2)=a^2\cdot1+b^2\cdot1=a^2+b^2 .
+\mathrm{Var}(a\varepsilon_1+b\varepsilon_2)=\mathrm{Var}(a\varepsilon_1)+\mathrm{Var}(b\varepsilon_2)=a^2\cdot1+b^2\cdot1=a^2+b^2 .
 ```
 
-依据：第一个等号用 T3 的独立规则，$`\varepsilon_1,\varepsilon_2`$ 独立，协方差为 0；第二个等号用 T3 的 $`\operatorname{Var}(aX)=a^2\operatorname{Var}(X)`$，再代入 $`\operatorname{Var}(\varepsilon_1)=\operatorname{Var}(\varepsilon_2)=1`$。为什么是 $`a^2`$ 而不是 a：方差是“偏离的平方”的平均，一个量乘以 a，它的偏离的平方就乘以 $`a^2`$。
+依据：第一个等号用 T3 的独立规则，$`\varepsilon_1,\varepsilon_2`$ 独立，协方差为 0；第二个等号用 T3 的 $`\mathrm{Var}(aX)=a^2\,\mathrm{Var}(X)`$，再代入 $`\mathrm{Var}(\varepsilon_1)=\mathrm{Var}(\varepsilon_2)=1`$。为什么是 $`a^2`$ 而不是 a：方差是“偏离的平方”的平均，一个量乘以 a，它的偏离的平方就乘以 $`a^2`$。
 
 **第 4 步　算右边的均值和方差**
 
@@ -253,7 +253,7 @@ a\varepsilon_1+b\varepsilon_2\ \overset{d}{=}\ \sqrt{a^2+b^2}\,\varepsilon\ \sim
 **常见卡点**
 
 - 把标准差相加：$`3+4=7`$ 是错的，相加的是方差 $`9+16=25`$。
-- 忘了独立条件：若 $`\varepsilon_1,\varepsilon_2`$ 相关，方差要多出 $`2ab\operatorname{Cov}(\varepsilon_1,\varepsilon_2)`$。
+- 忘了独立条件：若 $`\varepsilon_1,\varepsilon_2`$ 相关，方差要多出 $`2ab\,\mathrm{Cov}(\varepsilon_1,\varepsilon_2)`$。
 - 把 $`\mathcal{N}(0,25)`$ 里的 25 当成标准差：第二个参数是方差。
 
 **重推骨架**
@@ -383,7 +383,7 @@ $`A\gt 0`$，所以乘积正比于一个高斯，并且
 
 **第 3 步　均值**：$`\mathbb{E}[x]=a\,\mathbb{E}[z]+\sigma\,\mathbb{E}[\varepsilon]=0`$（T2）。
 
-**第 4 步　方差**：$`\operatorname{Var}(x)=a^2\operatorname{Var}(z)+\sigma^2\operatorname{Var}(\varepsilon)=a^2+\sigma^2`$（T3，z 与 ε 独立）。
+**第 4 步　方差**：$`\mathrm{Var}(x)=a^2\,\mathrm{Var}(z)+\sigma^2\,\mathrm{Var}(\varepsilon)=a^2+\sigma^2`$（T3，z 与 ε 独立）。
 
 **结论**：
 
@@ -442,7 +442,7 @@ $`z^2`$ 的系数里，1 来自先验，$`a^2/\sigma^2`$ 来自似然。
 $`A=1+\dfrac{a^2}{\sigma^2}=\dfrac{\sigma^2+a^2}{\sigma^2}`$，$`B=\dfrac{ax}{\sigma^2}`$，所以
 
 ```math
-\operatorname{Var}(z\mid x)=\frac1A=\frac{\sigma^2}{\sigma^2+a^2},\qquad \mathbb{E}[z\mid x]=\frac BA=\frac{ax}{\sigma^2}\cdot\frac{\sigma^2}{\sigma^2+a^2}=\frac{ax}{\sigma^2+a^2}.
+\mathrm{Var}(z\mid x)=\frac1A=\frac{\sigma^2}{\sigma^2+a^2},\qquad \mathbb{E}[z\mid x]=\frac BA=\frac{ax}{\sigma^2}\cdot\frac{\sigma^2}{\sigma^2+a^2}=\frac{ax}{\sigma^2+a^2}.
 ```
 
 即
@@ -464,15 +464,15 @@ p(z\mid x)=\mathcal{N}\Big(z;\ \frac{ax}{\sigma^2+a^2},\ \frac{\sigma^2}{\sigma^
 术语：联合高斯（jointly Gaussian）指 (z, x) 作为一个整体服从二维高斯。这里 z 和 x 都是独立高斯 z、ε 的线性组合，所以是联合高斯。对联合高斯，有一维条件公式（见 Bishop, 2006, 第 2.3.1 节）：
 
 ```math
-\mathbb{E}[z\mid x]=\mathbb{E}[z]+\frac{\operatorname{Cov}(z,x)}{\operatorname{Var}(x)}\big(x-\mathbb{E}[x]\big),\qquad \operatorname{Var}(z\mid x)=\operatorname{Var}(z)-\frac{\operatorname{Cov}(z,x)^2}{\operatorname{Var}(x)}.
+\mathbb{E}[z\mid x]=\mathbb{E}[z]+\frac{\mathrm{Cov}(z,x)}{\mathrm{Var}(x)}\big(x-\mathbb{E}[x]\big),\qquad \mathrm{Var}(z\mid x)=\mathrm{Var}(z)-\frac{\mathrm{Cov}(z,x)^2}{\mathrm{Var}(x)}.
 ```
 
-需要的量：$`\operatorname{Var}(x)=a^2+\sigma^2`$（5.1 节）；$`\operatorname{Cov}(z,x)=\mathbb{E}[z\,(az+\sigma\varepsilon)]=a\,\mathbb{E}[z^2]+\sigma\,\mathbb{E}[z\varepsilon]=a\cdot1+\sigma\cdot0=a`$。这里用了 z、x 的均值都是 0，所以协方差就是 $`\mathbb{E}[zx]`$；$`\mathbb{E}[z\varepsilon]=\mathbb{E}[z]\,\mathbb{E}[\varepsilon]=0`$ 来自独立。
+需要的量：$`\mathrm{Var}(x)=a^2+\sigma^2`$（5.1 节）；$`\mathrm{Cov}(z,x)=\mathbb{E}[z\,(az+\sigma\varepsilon)]=a\,\mathbb{E}[z^2]+\sigma\,\mathbb{E}[z\varepsilon]=a\cdot1+\sigma\cdot0=a`$。这里用了 z、x 的均值都是 0，所以协方差就是 $`\mathbb{E}[zx]`$；$`\mathbb{E}[z\varepsilon]=\mathbb{E}[z]\,\mathbb{E}[\varepsilon]=0`$ 来自独立。
 
 代入：
 
 ```math
-\mathbb{E}[z\mid x]=\frac{a}{a^2+\sigma^2}\,x,\qquad \operatorname{Var}(z\mid x)=1-\frac{a^2}{a^2+\sigma^2}=\frac{\sigma^2}{a^2+\sigma^2}.
+\mathbb{E}[z\mid x]=\frac{a}{a^2+\sigma^2}\,x,\qquad \mathrm{Var}(z\mid x)=1-\frac{a^2}{a^2+\sigma^2}=\frac{\sigma^2}{a^2+\sigma^2}.
 ```
 
 与 5.2 的结果相同。两条独立的路得到同一个答案，说明推导没有错。
@@ -486,7 +486,7 @@ p(z\mid x)=\mathcal{N}\Big(z;\ \frac{ax}{\sigma^2+a^2},\ \frac{\sigma^2}{\sigma^
 这一节第二遍再看。设 $`z\in\mathbb{R}^n`$，$`x\in\mathbb{R}^m`$，A 是 $`m\times n`$ 矩阵。步骤和一维完全相同，只是把数的运算换成矩阵运算。需要三条矩阵规则：
 
 - 转置：$`(AB)^\top=B^\top A^\top`$；向量长度的平方 $`\Vert v\Vert^2=v^\top v`$。
-- 协方差的线性变换：$`\operatorname{Cov}(Az)=A\operatorname{Cov}(z)A^\top`$。这是 $`\operatorname{Var}(aX)=a^2\operatorname{Var}(X)`$ 的矩阵版本。
+- 协方差的线性变换：$`\mathrm{Cov}(Az)=A\,\mathrm{Cov}(z)A^\top`$。这是 $`\mathrm{Var}(aX)=a^2\,\mathrm{Var}(X)`$ 的矩阵版本。
 - 向量配方模板：Λ 对称且可逆时，若 $`\log p(z)=-\frac{1}{2}z^\top\Lambda z+b^\top z+\text{常数}`$，则 $`p=\mathcal{N}(\Lambda^{-1}b,\ \Lambda^{-1})`$。这是 T6 的矩阵版本，Λ 叫精度矩阵。
 
 一维与矩阵逐项对照：
@@ -494,7 +494,7 @@ p(z\mid x)=\mathcal{N}\Big(z;\ \frac{ax}{\sigma^2+a^2},\ \frac{\sigma^2}{\sigma^
 | 一维 | 矩阵 |
 |---|---|
 | $`x=az+\sigma\varepsilon`$ | $`x=Az+\sigma\varepsilon`$ |
-| $`\operatorname{Var}(x)=a^2+\sigma^2`$ | $`\operatorname{Cov}(x)=AA^\top+\sigma^2I`$ |
+| $`\mathrm{Var}(x)=a^2+\sigma^2`$ | $`\mathrm{Cov}(x)=AA^\top+\sigma^2I`$ |
 | $`(x-az)^2`$ 展开 | $`\Vert x-Az\Vert^2=x^\top x-2x^\top Az+z^\top A^\top Az`$ |
 | 精度 $`1+a^2/\sigma^2`$ | 精度矩阵 $`\Lambda=I+A^\top A/\sigma^2`$ |
 | 一次项系数 $`ax/\sigma^2`$ | $`b=A^\top x/\sigma^2`$ |
@@ -518,7 +518,7 @@ A^\top(AA^\top+\sigma^2I)=A^\top AA^\top+\sigma^2A^\top=(A^\top A+\sigma^2I)A^\t
 **常见卡点**
 
 - 后验里把 x 当变量：x 已经观测到，是常数，$`x^2`$ 那一项进常数。
-- 边缘分布忘了 z 本身的方差：$`\operatorname{Var}(az)=a^2\operatorname{Var}(z)=a^2`$。
+- 边缘分布忘了 z 本身的方差：$`\mathrm{Var}(az)=a^2\,\mathrm{Var}(z)=a^2`$。
 - 矩阵版本的乘法顺序：$`A^\top A`$ 是 $`n\times n`$，$`AA^\top`$ 是 $`m\times m`$，不能互换。
 
 **重推骨架**
@@ -672,7 +672,7 @@ python code/01_gaussian_kl_check.py
   与 N(0,I) 的 KL 特例         公式值 3.26064412  数值值 3.26064412  误差 0.00e+00  通过
 ```
 
-**这一项在算什么**：脚本第 48、49 行取了两个三维对角高斯 $`p=\mathcal{N}\big(\mu_1,\operatorname{diag}(\sigma_1^2)\big)`$ 和 $`q=\mathcal{N}\big(\mu_2,\operatorname{diag}(\sigma_2^2)\big)`$，其中 $`\mu_1=(0.5,\,-1,\,2)`$，$`\sigma_1=(1.2,\,0.7,\,0.4)`$，$`\mu_2=(0,\,0.5,\,1)`$，$`\sigma_2=(1,\,1,\,0.8)`$。然后用三种方法算同一个 $`\mathrm{KL}(p\Vert q)`$：
+**这一项在算什么**：脚本第 48、49 行取了两个三维对角高斯 $`p=\mathcal{N}\big(\mu_1,\mathrm{diag}(\sigma_1^2)\big)`$ 和 $`q=\mathcal{N}\big(\mu_2,\mathrm{diag}(\sigma_2^2)\big)`$，其中 $`\mu_1=(0.5,\,-1,\,2)`$，$`\sigma_1=(1.2,\,0.7,\,0.4)`$，$`\mu_2=(0,\,0.5,\,1)`$，$`\sigma_2=(1,\,1,\,0.8)`$。然后用三种方法算同一个 $`\mathrm{KL}(p\Vert q)`$：
 
 1. 闭式：第 42 到 44 行的函数 `kl_diag_gaussians`，公式写在第 44 行，就是 6.2 的公式。
 2. torch.distributions：第 53 行调用 PyTorch 自带的 `kl_divergence`。
