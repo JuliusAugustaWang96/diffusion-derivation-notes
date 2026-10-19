@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Office files: the PDF of each version is attached to a GitHub Release instead of being committed,
+# and Word files carry author metadata
+*.docx
+*.doc
+~$*
+*.pdf
