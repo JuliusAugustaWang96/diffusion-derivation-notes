@@ -23,3 +23,7 @@ desktop.ini
 *.jpg
 *.jpeg
 *.heic
+
+# Screenshots stay local as well: the only pictures published are the figures drawn by the scripts in code/
+*.png
+!docs/figures/*.png
