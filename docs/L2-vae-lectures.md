@@ -1,6 +1,6 @@
 # 扩散模型推导笔记 L2：变分自编码器 VAE（李宏毅课程听课笔记）
 
-本文是本系列的听课笔记，整理李宏毅老师两门课中讲变分自编码器（VAE）的内容。第一部分是《生成式AI导论 2024》第 18 讲《有關影像的生成式AI (下) — 快速導讀經典影像生成方法 (VAE, Flow, Diffusion, GAN) 以及與生成的影片互動》的前半段，用文字生图的例子说明 VAE 与 Flow 中间那个向量从何而来；第二部分是这一讲的课程页列为延伸视频的 2016 年《机器学习》VAE 一讲，从结构、直观一直讲到最大似然与下界。[L0](L0-image-generation-models.md) 第 1.2 节只用两句话介绍了 VAE，[L1](L1-ddpm-lectures.md) 第 2.3、2.4 节借 VAE 引出 DDPM 的下界；本文把 VAE 本身讲完整。
+本文是本系列的听课笔记，整理李宏毅老师两门课中讲变分自编码器（VAE）的内容。第一部分是《生成式AI导论 2024》第 18 讲《有關影像的生成式AI (下) — 快速導讀經典影像生成方法 (VAE, Flow, Diffusion, GAN) 以及與生成的影片互動》的前半段，用文字生图的例子说明 VAE 与 Flow 中间那个向量从何而来；第二部分是 2016 年《机器学习》“Unsupervised Learning: Deep Generative Model”一讲中的 VAE 内容，从结构、直观一直讲到最大似然与下界。这一讲分两段视频：Part I 的后半段介绍 VAE 的结构和几个例子，Part II 从 Why VAE? 讲起；2024 年的课程页把 Part II 列为 VAE 的延伸视频。[L0](L0-image-generation-models.md) 第 1.2 节只用两句话介绍了 VAE，[L1](L1-ddpm-lectures.md) 第 2.3、2.4 节借 VAE 引出 DDPM 的下界；本文把 VAE 本身讲完整。
 
 读法同 L0、L1：每节按 **术语**、**要点**、**公式**、**补充**、**联系** 排列。第 0 章是一页速览，第 1 章对应 2024 年的一讲，第 2 至 4 章对应 2016 年的一讲，第 5 章是小结，第 6、7 章是自测题和答案。
 
@@ -115,13 +115,13 @@ c_i=\exp(\sigma_i)\times e_i+m_i,\qquad e_i\sim\mathcal{N}(0,1)
 1. 按第一个式子，噪声的标准差是 $`\exp(\sigma_i)`$，即 $`\sigma_i`$ 是对数标准差。这时码服从 $`\mathcal{N}(m_i,\exp(2\sigma_i))`$，它与标准正态分布之间的 KL 散度是 $`\frac{1}{2}\big(\exp(2\sigma_i)-(1+2\sigma_i)+m_i^2\big)`$。
 2. 讲义的第二个式子，恰好是 $`\sigma_i`$ 为对数方差时这个 KL 的 2 倍：方差为 $`\exp(\sigma_i)`$ 时，KL 等于 $`\frac{1}{2}\big(\exp(\sigma_i)-(1+\sigma_i)+m_i^2\big)`$。按这个约定，第一个式子应写成 $`c_i=\exp(\sigma_i/2)\,e_i+m_i`$。
 3. 两种约定的最小点相同，都在 $`\sigma_i=0`$、$`m_i=0`$，所以课上的结论（第 2.4 节）不受影响，但数值不同。例如 $`\sigma_i=1`$、$`m_i=0`$ 时，讲义的式子给出 $`\exp(1)-2=0.7183`$；若 $`\sigma_i`$ 是对数方差，KL 为 0.3591，正好一半；若 $`\sigma_i`$ 是对数标准差，KL 为 $`\frac{1}{2}\big(\exp(2)-3\big)=2.1945`$。
-4. 常见的实现让编码器输出对数方差，再取 $`\exp(\sigma_i/2)`$ 作为标准差。原论文附录 B 的写法是 $`-\mathrm{KL}=\frac{1}{2}\sum_j\big(1+\log\sigma_j^2-\mu_j^2-\sigma_j^2\big)`$，其中 $`\sigma_j`$ 是标准差。
+4. 原论文让网络输出的是对数方差：附录 C.2 的网络输出 $`\log\sigma^2`$。常见的实现也这样做，再取 $`\exp(\sigma_i/2)`$ 作为标准差。原论文附录 B 的写法是 $`-\mathrm{KL}=\frac{1}{2}\sum_j\big(1+\log\sigma_j^2-\mu_j^2-\sigma_j^2\big)`$，其中 $`\sigma_j`$ 是标准差。
 
 **联系**：对角高斯之间的 KL 散度见 [D0–D1 第 6 章](D0-D1-gaussian-and-kl.md#6-d1-两个对角高斯之间的-kl-散度)，与标准正态分布之间的特例见其中的 [6.3 节](D0-D1-gaussian-and-kl.md#63-两个特例-c)。
 
 ### 2.2 讲义中的几个例子
 
-**要点**：讲义在这里展示了 VAE 能做的几件事。
+**要点**：讲义在这里展示了 VAE 能做的几件事，这几页在 Part I 的末尾讲解。
 
 1. CIFAR-10 上的生成样本，取自 Kingma et al. (2016) 关于逆自回归流（IAF）的论文。
 2. 生成宝可梦：码取 10 维，训练好以后，固定其中 8 维，只在另外 2 维上取一个网格，逐点解码，看这两维分别控制了什么。
@@ -129,7 +129,7 @@ c_i=\exp(\sigma_i)\times e_i+m_i,\qquad e_i\sim\mathcal{N}(0,1)
 
 ### 2.3 为什么要加噪声：码空间的连续性
 
-**要点**：讲义用月亮作直观解释（图 3）。
+**要点**：讲义用月亮作直观解释（图 3），Part II 就从这一页讲起。
 
 1. 自编码器把满月编码成一个点，把弦月编码成另一个点。两点中间的码在训练时从没出现过，解码出来是什么，没有任何保证。
 2. VAE 给码加了噪声：满月对应的不再是一个点，而是一段范围，弦月也一样。两段范围重叠时，重叠处的码有时来自满月，有时来自弦月，解码器必须让输出同时尽量接近两者。课上说，这样中间的码也许就会解码成介于满月和弦月之间的月相。
@@ -200,7 +200,7 @@ z\sim\mathcal{N}(0,I),\qquad x\mid z\sim\mathcal{N}\big(\mu(z),\sigma(z)\big),\q
 
 **补充（数值例子）**：图 5(b) 用一个固定的函数 $`\mu(z)=z+1.8\sin(2.8z+1)`$ 代替网络，并取 $`\sigma(z)=0.2`$。$`z`$ 只是一维标准正态，$`P(x)`$ 却有三个峰，分别在 $`x\approx-2.6`$、$`-0.35`$、$`1.9`$ 附近，最高峰约是最矮峰的 1.6 倍；数值积分与 50 万次抽样的直方图一致。
 
-**补充**：$`z`$ 为什么取高斯？$`z`$ 是建模时自己引入的隐变量，它的分布由我们选定，原则上也可以取别的分布。选标准正态分布，一是容易抽样；二是编码器也取高斯时，第 3.6 节的 KL 项有闭式解；三是如上所说，网络能把它变成复杂的 $`P(x)`$。
+**补充**：$`z`$ 为什么取高斯？课上的回答是：$`z`$ 的分布可以自己假设成任何形状；取高斯是一个合理的假设，因为每一种属性，大多数情况都普通，极端的情况少；它也不会过分限制 $`P(x)`$，因为网络能把简单的 $`z`$ 变成复杂的 $`P(x)`$。此外还有两个实用的好处：标准正态分布容易抽样；编码器也取高斯时，第 3.6 节的 KL 项有闭式解。
 
 ![图 5：(a) 高斯混合：先抽类别 m，再抽 x；(b) VAE：每个 z 对应一个高斯，z 连续变化，积分得到 P(x)。下方是类别的概率 P(m) 与代替网络的函数 μ(z)。](figures/l2_fig5_mixtures.png)
 
@@ -316,7 +316,7 @@ $`q`$ 等于先验时，第一项最好（为 0），重建却很差；$`q`$ 等
 
 1. VAE 训练解码器时，要求输出与目标图尽量接近，比较的是一个个像素的差。它并没有真的去模仿“一张真实的图长什么样”。
 2. 讲义的例子：两张输出都与目标差一个像素。一张是笔画末端多了一点，看起来很自然；另一张是空白处多了一个孤立的黑点，一眼就是假的。对逐像素的误差来说，两者一样（图 7(a)）。
-3. 讲义的结论：VAE 可能只是记住了已有的图，而不是生成新的图。
+3. 讲义的结论：VAE 可能只是记住了已有的图，而不是生成新的图。课上还说，VAE 生成的图往往像是训练资料中几张图的线性组合。
 
 **补充（数值例子）**：用 28×28 的合成数字 7（89 个黑像素）验证：延长笔画与孤立黑点的平方误差都是 1。再看位置的不确定：一张整体右移一个像素的清晰的 7，平方误差是 38；而左移、不动、右移三个位置的平均，即一张模糊的 7，平方误差只有 8.67（图 7(b)）。若目标本身等可能地出现在这三个位置，清晰的 7 的期望平方误差是 25.33，模糊的 7 是 16.67。以平方误差为准，模糊的平均反而是最好的输出；第 2.3 节重叠处的“重影”也是同一个原因。这是后来把 VAE 与 GAN 结合的动机之一：Larsen et al. (2016) 用判别器学到的特征代替逐像素的误差。
 
@@ -368,25 +368,23 @@ $`q`$ 等于先验时，第一项最好（为 0），重建却很差；$`q`$ 等
 
 课程与视频：
 
-1. 李宏毅. 生成式AI导论 2024（课程页）. <https://speech.ee.ntu.edu.tw/~hylee/genai/2024-spring.php> 。5/31 条目下有第 17、18 讲的视频与讲义 PDF，并列出 VAE、Flow、GAN、扩散模型的延伸视频。
+1. 李宏毅. 生成式AI导论 2024（课程页）. <https://speech.ee.ntu.edu.tw/~hylee/genai/2024-spring.php> 。5/31 条目下有第 18 讲的视频、讲义和 VAE 的延伸视频。
 2. 【生成式AI導論 2024】第18講：有關影像的生成式AI (下) — 快速導讀經典影像生成方法 (VAE, Flow, Diffusion, GAN) 以及與生成的影片互動. <https://youtu.be/OYN_GvAqv-A>
-3. 李宏毅. 机器学习 2016 秋（课程页）. <https://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html> 。2016/12/02 条目“Unsupervised Learning: Deep Generative Model”下有讲义 VAE (v5) 和两段视频。
-4. ML Lecture 18: Unsupervised Learning - Deep Generative Model (Part II). <https://youtu.be/8zomhgKrsmQ> 。课程页 1 把它列为 VAE 的延伸视频。
+3. 李宏毅. 机器学习 2016 秋（课程页）. <https://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html> 。2016/12/02 条目下有讲义 VAE (v5) 和两段视频。
+4. ML Lecture 17: Unsupervised Learning - Deep Generative Model (Part I). <https://youtu.be/YNUek8ioAJk> 。后半段讲 VAE 的结构和例子，即本文 2.1、2.2 节。
+5. ML Lecture 18: Unsupervised Learning - Deep Generative Model (Part II). <https://youtu.be/8zomhgKrsmQ> 。从 Why VAE? 讲起，即本文 2.3 节以后；课程页 1 把它列为 VAE 的延伸视频。
 
-论文：
+论文与入门读物：
 
-5. Kingma, D. P., & Welling, M. (2014). Auto-encoding variational Bayes. *ICLR 2014*. arXiv:1312.6114.
-6. Rezende, D. J., Mohamed, S., & Wierstra, D. (2014). Stochastic backpropagation and approximate inference in deep generative models. *ICML 2014*. arXiv:1401.4082.
-7. Kingma, D. P., Rezende, D. J., Mohamed, S., & Welling, M. (2014). Semi-supervised learning with deep generative models. *NIPS 2014*. arXiv:1406.5298.
-8. Sohn, K., Lee, H., & Yan, X. (2015). Learning structured output representation using deep conditional generative models. *NIPS 2015*.
-9. Yan, X., Yang, J., Sohn, K., & Lee, H. (2016). Attribute2Image: Conditional image generation from visual attributes. *ECCV 2016*. arXiv:1512.00570.
-10. Kingma, D. P., Salimans, T., Jozefowicz, R., Chen, X., Sutskever, I., & Welling, M. (2016). Improved variational inference with inverse autoregressive flow. *NIPS 2016*. arXiv:1606.04934.
-11. Bowman, S. R., Vilnis, L., Vinyals, O., Dai, A. M., Jozefowicz, R., & Bengio, S. (2016). Generating sentences from a continuous space. *CoNLL 2016*. arXiv:1511.06349.
-12. Kingma, D. P., & Dhariwal, P. (2018). Glow: Generative flow with invertible 1×1 convolutions. *NeurIPS 2018*. arXiv:1807.03039.
-13. Larsen, A. B. L., Sønderby, S. K., Larochelle, H., & Winther, O. (2016). Autoencoding beyond pixels using a learned similarity metric. *ICML 2016*. arXiv:1512.09300.
-
-入门读物：
-
-14. Doersch, C. (2016). Tutorial on variational autoencoders. arXiv:1606.05908.
-15. Kingma, D. P., & Welling, M. (2019). An introduction to variational autoencoders. *Foundations and Trends in Machine Learning*. arXiv:1906.02691.
-16. 苏剑林. 变分自编码器（一）：原来是这么一回事. 科学空间. <https://kexue.fm/archives/5253>
+6. Kingma, D. P., & Welling, M. (2014). Auto-encoding variational Bayes. *ICLR 2014*. arXiv:1312.6114.
+7. Rezende, D. J., Mohamed, S., & Wierstra, D. (2014). Stochastic backpropagation and approximate inference in deep generative models. *ICML 2014*. arXiv:1401.4082.
+8. Kingma, D. P., Rezende, D. J., Mohamed, S., & Welling, M. (2014). Semi-supervised learning with deep generative models. *NIPS 2014*. arXiv:1406.5298.
+9. Sohn, K., Lee, H., & Yan, X. (2015). Learning structured output representation using deep conditional generative models. *NIPS 2015*.
+10. Yan, X., Yang, J., Sohn, K., & Lee, H. (2016). Attribute2Image: Conditional image generation from visual attributes. *ECCV 2016*. arXiv:1512.00570.
+11. Kingma, D. P., Salimans, T., Jozefowicz, R., Chen, X., Sutskever, I., & Welling, M. (2016). Improved variational inference with inverse autoregressive flow. *NIPS 2016*. arXiv:1606.04934.
+12. Bowman, S. R., Vilnis, L., Vinyals, O., Dai, A. M., Jozefowicz, R., & Bengio, S. (2016). Generating sentences from a continuous space. *CoNLL 2016*. arXiv:1511.06349.
+13. Kingma, D. P., & Dhariwal, P. (2018). Glow: Generative flow with invertible 1×1 convolutions. *NeurIPS 2018*. arXiv:1807.03039.
+14. Larsen, A. B. L., Sønderby, S. K., Larochelle, H., & Winther, O. (2016). Autoencoding beyond pixels using a learned similarity metric. *ICML 2016*. arXiv:1512.09300.
+15. Doersch, C. (2016). Tutorial on variational autoencoders. arXiv:1606.05908.
+16. Kingma, D. P., & Welling, M. (2019). An introduction to variational autoencoders. *Foundations and Trends in Machine Learning*. arXiv:1906.02691.
+17. 苏剑林. 变分自编码器（一）：原来是这么一回事. 科学空间. <https://kexue.fm/archives/5253>
