@@ -120,7 +120,7 @@ P_\theta(x\mid z)\propto\exp\big(-\Vert G(z)-x\Vert^2\big)
 
 第二行的 KL 散度非负，去掉它就得到下界。$`q(z\mid x)`$ 可以是任何分布，在 VAE 中它就是编码器。把下界推高，$`\log P_\theta(x)`$ 也随之被推高。
 
-**联系**：ELBO 的完整推导，以及它为什么等于“重建项减去 KL 项”，是本系列推导题 D2、D3 的内容。
+**联系**：ELBO 的完整推导，以及它为什么等于“重建项减去 KL 项”，见 [D2–D3 笔记](D2-D3-elbo-and-vae-loss.md)第 4 至 6 章。
 
 ### 2.5 DDPM 怎样计算似然
 
@@ -339,7 +339,7 @@ $`t`$ 大时，后验均值几乎就是略作缩放的 $`x_t`$，每一步只去
 | 本文 | 课上的结论 | 推导在哪里 |
 |---|---|---|
 | 2.2 | 最大似然等价于最小化 $`\mathrm{KL}(P_{\mathrm{data}}\Vert P_\theta)`$ | [P0 第 3.6 节](P0-probability-and-information.md#36-交叉熵)：交叉熵等于熵加 KL |
-| 2.4、2.6 | 对数似然不小于 ELBO | 推导题 D2、D3（后续） |
+| 2.4、2.6 | 对数似然不小于 ELBO | [D2–D3 第 4、5 章](D2-D3-elbo-and-vae-loss.md#4-d2a-jensen-推法) |
 | 3.1 | 前向过程一步到位 | [D0(c) 噪声合并](D0-D1-gaussian-and-kl.md#3-d0c-噪声合并)；推导题 D4（后续） |
 | 3.2 | 下界拆成三项，第二项与 $`\theta`$ 无关 | 推导题 D6（后续） |
 | 3.3 | 后验 $`q(x_{t-1}\mid x_t,x_0)`$ 是高斯 | [D0–D1 第 5 章](D0-D1-gaussian-and-kl.md#5-d0a-线性高斯模型)；推导题 D5（后续） |

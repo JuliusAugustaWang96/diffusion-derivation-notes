@@ -27,3 +27,6 @@ desktop.ini
 # Screenshots stay local as well: the only pictures published are the figures drawn by the scripts in code/
 *.png
 !docs/figures/*.png
+
+# MNIST downloaded by code/02_vae_mnist.py: the data set itself is not part of the repository
+data/
