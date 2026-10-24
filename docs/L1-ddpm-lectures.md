@@ -1,6 +1,6 @@
 # 扩散模型推导笔记 L1：DDPM 原理剖析（李宏毅课程听课笔记）
 
-本文是本系列的听课笔记，整理李宏毅《机器学习 2023 春》课程 4 月 7 日的选修内容《【生成式AI】Diffusion Model 原理剖析》四段视频，讲义题为“Diffusion Model 背後的數學原理”。[L0](L0-image-generation-models.md) 第 2 章介绍了 DDPM 的训练算法和采样算法，课上说这两个算法“暗藏玄机”；这四讲用最大似然和变分下界解释两个算法为什么写成那样。
+本文是本系列的听课笔记，整理李宏毅《机器学习 2023 春》课程 4 月 7 日的选修内容《【生成式AI】Diffusion Model 原理剖析》四段视频，讲义题为“Diffusion Model 背後的數學原理”。[L0](L0-image-generation-models.md) 第 2 章介绍了 DDPM 的训练算法和采样算法，课上说这两个算法“暗藏玄机”；这四讲用最大似然和变分下界解释两个算法为什么写成那样。[R1](R1-ddpm-paper-walkthrough.md) 把同一套推导写成定义、定理与证明，并逐式对照原论文。
 
 读法同 L0：每节按 **术语**、**要点**、**公式**、**补充**、**联系** 排列。课上对代数推导点到为止，许多步骤只给结果，并注明“硬推”可得；本文也只写出关键的中间结果和出处，完整的逐步推导属于本系列的推导篇。第 0 章是一页速览，第 5 章把课程内容与推导篇对应起来，第 6、7 章是自测题和答案。
 
@@ -339,13 +339,13 @@ $`t`$ 大时，后验均值几乎就是略作缩放的 $`x_t`$，每一步只去
 | 本文 | 课上的结论 | 推导在哪里 |
 |---|---|---|
 | 2.2 | 最大似然等价于最小化 $`\mathrm{KL}(P_{\mathrm{data}}\Vert P_\theta)`$ | [P0 第 3.6 节](P0-probability-and-information.md#36-交叉熵)：交叉熵等于熵加 KL |
-| 2.4、2.6 | 对数似然不小于 ELBO | [D2–D3 第 4、5 章](D2-D3-elbo-and-vae-loss.md#4-d2a-jensen-推法) |
-| 3.1 | 前向过程一步到位 | [D0(c) 噪声合并](D0-D1-gaussian-and-kl.md#3-d0c-噪声合并)；推导题 D4（后续） |
-| 3.2 | 下界拆成三项，第二项与 $`\theta`$ 无关 | 推导题 D6（后续） |
-| 3.3 | 后验 $`q(x_{t-1}\mid x_t,x_0)`$ 是高斯 | [D0–D1 第 5 章](D0-D1-gaussian-and-kl.md#5-d0a-线性高斯模型)；推导题 D5（后续） |
-| 3.4 | 方差固定时，KL 只取决于均值之差 | [D0–D1 第 6.3 节](D0-D1-gaussian-and-kl.md#63-两个特例-c) |
-| 3.5 | 网络只需预测噪声 | 推导题 D7（后续） |
-| 4.5 | DDIM 的确定性采样 | 推导题 D8（后续） |
+| 2.4、2.6 | 对数似然不小于 ELBO | [D2–D3 第 4、5 章](D2-D3-elbo-and-vae-loss.md#4-d2a-jensen-推法)；[R1 定理 1](R1-ddpm-paper-walkthrough.md#31-引理-1-与定理-1) |
+| 3.1 | 前向过程一步到位 | [D0(c) 噪声合并](D0-D1-gaussian-and-kl.md#3-d0c-噪声合并)；[R1 命题 1](R1-ddpm-paper-walkthrough.md#24-命题-1前向过程一步到位)；推导题 D4（后续） |
+| 3.2 | 下界拆成三项，第二项与 $`\theta`$ 无关 | [R1 定理 2](R1-ddpm-paper-walkthrough.md#32-定理-2三项式)；推导题 D6（后续） |
+| 3.3 | 后验 $`q(x_{t-1}\mid x_t,x_0)`$ 是高斯 | [D0–D1 第 5 章](D0-D1-gaussian-and-kl.md#5-d0a-线性高斯模型)；[R1 定理 3](R1-ddpm-paper-walkthrough.md#4-定理-3前向过程的后验)；推导题 D5（后续） |
+| 3.4 | 方差固定时，KL 只取决于均值之差 | [D0–D1 第 6.3 节](D0-D1-gaussian-and-kl.md#63-两个特例-c)；[R1 定理 4](R1-ddpm-paper-walkthrough.md#51-引理-2-与定理-4) |
+| 3.5 | 网络只需预测噪声 | [R1 定理 5](R1-ddpm-paper-walkthrough.md#52-定理-5ε-参数化)；推导题 D7（后续） |
+| 4.5 | DDIM 的确定性采样 | [R1 命题 7](R1-ddpm-paper-walkthrough.md#64-命题-7采样为什么要加噪声)；推导题 D8（后续） |
 
 ## 6 自测题
 

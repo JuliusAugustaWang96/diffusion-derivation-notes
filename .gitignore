@@ -30,3 +30,6 @@ desktop.ini
 
 # MNIST downloaded by code/02_vae_mnist.py: the data set itself is not part of the repository
 data/
+
+# Model weights written by code/04_ddpm_toy2d.py
+*.pt
